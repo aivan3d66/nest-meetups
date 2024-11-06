@@ -1,13 +1,5 @@
-export interface IDatabaseConfigAttributes {
-  username?: string;
-  password?: string;
-  database?: string;
-  host?: string;
-  port?: number | string;
-  dialect?: string;
-  urlDatabase?: string;
-}
+import { SequelizeModuleOptions } from '@nestjs/sequelize/dist/interfaces/sequelize-options.interface';
 
-export interface IDatabaseConfig {
-  development: IDatabaseConfigAttributes;
-}
+export type DatabaseConfig = {
+  development: SequelizeModuleOptions;
+};

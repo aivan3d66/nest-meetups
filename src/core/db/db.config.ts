@@ -1,16 +1,18 @@
 import * as dotenv from 'dotenv';
 
-import { IDatabaseConfig } from './db.interface';
+import { DatabaseConfig } from './db.interface';
 
 dotenv.config();
 
-export const databaseConfig: IDatabaseConfig = {
+const { DB_PORT, DB_USER, DB_PASS, DB_NAME, DB_HOST } = process.env;
+
+export const databaseConfig: DatabaseConfig = {
   development: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    dialect: process.env.DB_DIALECT,
+    dialect: 'postgres',
+    username: DB_USER || '',
+    password: DB_PASS || '',
+    database: DB_NAME || '',
+    host: DB_HOST || 'localhost',
+    port: Number(DB_PORT) || 5432,
   },
 };
