@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { UserDto } from './dto/user.dto';
 import { USER_REPOSITORY } from '../../constants';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -30,7 +31,7 @@ export class UsersService {
   //   });
   // }
 
-  async update(user: UserDto) {
+  async update(user: UpdateUserDto) {
     return this.userRepository.update(user, {
       where: { id: user.id },
       returning: true,
