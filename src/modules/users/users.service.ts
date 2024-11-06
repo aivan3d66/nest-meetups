@@ -25,11 +25,11 @@ export class UsersService {
     });
   }
 
-  // async findOneByUsername(username: string) {
-  //   return this.userRepository.findOne({
-  //     where: { username },
-  //   });
-  // }
+  async findOneByUsername(username: string) {
+    return this.userRepository.findOne<User>({
+      where: { username },
+    });
+  }
 
   async update(user: UpdateUserDto) {
     return this.userRepository.update(user, {
