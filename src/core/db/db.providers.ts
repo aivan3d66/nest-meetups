@@ -2,13 +2,14 @@ import { Sequelize } from 'sequelize-typescript';
 import { SEQUELIZE } from '../../constants';
 import { databaseConfig } from './db.config';
 import { User } from '../../modules/users/entities/user.entity';
+import { Meetup } from '../../modules/meetups/entities/meetup.entity';
 
 export const databaseProviders = [
   {
     provide: SEQUELIZE,
     useFactory: async () => {
       const sequelize = new Sequelize(databaseConfig.development);
-      sequelize.addModels([User]);
+      sequelize.addModels([User, Meetup]);
 
       try {
         await sequelize.authenticate();
