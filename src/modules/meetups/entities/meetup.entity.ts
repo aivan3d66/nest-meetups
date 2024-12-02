@@ -19,7 +19,12 @@ export class Meetup extends Model<Meetup> {
     type: DataType.STRING,
     allowNull: false,
   })
-  datetime: string;
+  tags: string;
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  date_time: string;
   @Column({
     type: DataType.STRING,
     allowNull: false,
