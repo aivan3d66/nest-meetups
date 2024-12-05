@@ -7,7 +7,6 @@ import {
   Delete,
   // UseGuards,
   Put,
-  Query,
   UsePipes,
 } from '@nestjs/common';
 import { MeetupsService } from './meetups.service';
@@ -15,7 +14,7 @@ import { CreateMeetupDto } from './dto/create-meetup.dto';
 import { UpdateMeetupDto } from './dto/update-meetup.dto';
 // import { RolesGuard } from '../../core/guards/roles.guard';
 import { JoiMeetupValidationPipe } from '../../core/validation/meetup-validation.pipe';
-import { meetupSchema } from './dto/meetup.dto';
+import { meetupSchema, SearchMeetParams } from './dto/meetup.dto';
 // import { Roles } from '../../core/decorators/roles.decorator';
 // import { Role } from '../../constants';
 
@@ -32,8 +31,8 @@ export class MeetupsController {
   }
 
   @Get()
-  findAll(@Query() query: any) {
-    return this.meetupsService.findAll(query);
+  findAll(@Body() searchMeetParams: SearchMeetParams) {
+    return this.meetupsService.findAll(searchMeetParams);
   }
 
   @Get(':id')

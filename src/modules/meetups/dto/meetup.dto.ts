@@ -19,3 +19,11 @@ export class MeetupDto {
   readonly location: string;
   readonly user_id: string;
 }
+
+export type SearchMeetParams = {
+  searchString?: string;
+  sort?: string;
+  tagFilter?: string;
+  page?: number;
+  perPage?: number;
+};
