@@ -11,7 +11,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { UserDto, userSchema } from '../users/dto/user.dto';
 import { JoiUserValidationPipe } from '../../core/validation/user-validation.pipe';
-import { UserExist } from '../../core/guards/userExist.guard';
+import { UserExist } from '../../core/guards/user-exist.guard';
 
 @Controller('auth')
 export class AuthController {
