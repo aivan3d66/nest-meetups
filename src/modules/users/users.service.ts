@@ -11,7 +11,7 @@ export class UsersService {
     private readonly userRepository: typeof User,
   ) {}
 
-  async create(user: Partial<UserDto>) {
+  async create(user: UserDto) {
     return this.userRepository.create(user);
   }
 

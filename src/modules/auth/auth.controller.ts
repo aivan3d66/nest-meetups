@@ -1,8 +1,16 @@
-import { Controller, Body, Post, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Body,
+  Post,
+  UseGuards,
+  Request,
+  UsePipes,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { AuthService } from './auth.service';
-import { UserDto } from '../users/dto/user.dto';
+import { UserDto, userSchema } from '../users/dto/user.dto';
+import { JoiUserValidationPipe } from '../../core/validation/user-validation.pipe';
 import { UserExist } from '../../core/guards/userExist.guard';
 
 @Controller('auth')
@@ -17,6 +25,7 @@ export class AuthController {
 
   @UseGuards(UserExist)
   @Post('signup')
+  @UsePipes(new JoiUserValidationPipe(userSchema))
   async signUp(@Body() user: UserDto) {
     return await this.authService.create(user);
   }
