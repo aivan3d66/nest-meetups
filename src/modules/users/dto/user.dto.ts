@@ -11,5 +11,6 @@ export class UserDto {
   readonly username: string;
   readonly email: string;
   readonly password: string;
+  readonly refresh_token: string | null;
   readonly roles: string[];
 }

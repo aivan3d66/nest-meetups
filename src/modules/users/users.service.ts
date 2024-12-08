@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+
 import { User } from './entities/user.entity';
 import { UserDto } from './dto/user.dto';
 import { USER_REPOSITORY } from '../../constants';
@@ -19,15 +20,9 @@ export class UsersService {
     return this.userRepository.findAll();
   }
 
-  async findOne(id: string) {
+  async findOne(fieldName: 'id' | 'username', value: string) {
     return this.userRepository.findOne({
-      where: { id },
-    });
-  }
-
-  async findOneByUsername(username: string) {
-    return this.userRepository.findOne<User>({
-      where: { username },
+      where: { [fieldName]: value },
     });
   }
 
@@ -39,7 +34,7 @@ export class UsersService {
   }
 
   async remove(id: string): Promise<void> {
-    const user = await this.findOne(id);
+    const user = await this.findOne('id', id);
     await user.destroy();
   }
 }

@@ -22,6 +22,11 @@ export class User extends Model<User> {
   })
   password: string;
   @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  refresh_token: string;
+  @Column({
     type: DataType.ARRAY(DataType.STRING),
     values: ['admin', 'user'],
     allowNull: false,

@@ -21,7 +21,8 @@ export class UserExist implements CanActivate {
   }
 
   async validateRequest(request) {
-    const userExist = await this.userService.findOneByUsername(
+    const userExist = await this.userService.findOne(
+      'username',
       request.body.username,
     );
 
