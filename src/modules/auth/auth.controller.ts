@@ -7,6 +7,7 @@ import {
   Get,
   Req,
 } from '@nestjs/common';
+import { ApiExcludeEndpoint } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
 import { UserDto, userSchema } from '../users/dto/user.dto';
@@ -20,23 +21,27 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
+  @ApiExcludeEndpoint()
   async login(@Body() authDto: AuthDto) {
     return await this.authService.signIn(authDto);
   }
 
   @UseGuards(AccessTokenGuard)
   @Get('logout')
+  @ApiExcludeEndpoint()
   logout(@Req() req: Request) {
     this.authService.logout(req.user['sub']);
   }
 
   @Post('signup')
+  @ApiExcludeEndpoint()
   @UsePipes(new JoiUserValidationPipe(userSchema))
   async signUp(@Body() user: UserDto) {
     return await this.authService.signUp(user);
   }
   @UseGuards(RefreshTokenGuard)
   @Get('refresh')
+  @ApiExcludeEndpoint()
   refreshTokens(@Req() req: Request) {
     const id = req.user['sub'];
     const refreshToken = req.user['refreshToken'];
