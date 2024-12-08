@@ -17,35 +17,45 @@ export class MeetupsService {
   }
 
   async findAll(searchMeetParams: SearchMeetParams) {
-    const { searchString, sort, tagFilter, page, perPage } = searchMeetParams;
+    const {
+      searchString,
+      sort,
+      tagFilter,
+      page = 0,
+      perPage = 10,
+    } = searchMeetParams;
+
+    const paginationData = {
+      limit: perPage,
+      offset: page === 0 ? page : page * 2,
+    };
 
     if (searchString) {
       const str = `${searchString}%`;
 
-      return this.meetupRepository.findAll({
+      return this.meetupRepository.findAndCountAll({
         where: { title: { [Op.substring]: str } },
+        ...paginationData,
       });
     } else if (sort === 'date-asc') {
-      return this.meetupRepository.findAll({
+      return this.meetupRepository.findAndCountAll({
         order: [['date_time', 'ASC']],
+        ...paginationData,
       });
     } else if (sort === 'date-desc') {
-      return this.meetupRepository.findAll({
+      return this.meetupRepository.findAndCountAll({
         order: [['date_time', 'DESC']],
+        ...paginationData,
       });
     } else if (tagFilter) {
       const str = `%${tagFilter}%`;
 
-      return this.meetupRepository.findAll({
-        where: { tags: { [Op.substring]: str } },
-      });
-    } else if (perPage && (page || page === 0)) {
-      return this.meetupRepository.findAll({
-        limit: perPage,
-        offset: page === 0 ? page : page * 2,
+      return this.meetupRepository.findAndCountAll({
+        where: { ['tags']: { [Op.substring]: str } },
+        ...paginationData,
       });
     } else {
-      return this.meetupRepository.findAll();
+      return this.meetupRepository.findAndCountAll({ ...paginationData });
     }
   }
 
