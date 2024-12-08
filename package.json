@@ -1,9 +1,12 @@
 {
   "name": "nest-meetups",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "private": true,
+  "author": "aivan3d66",
+  "engines": {
+    "node": "22.x",
+    "npm": "please-use-yarn",
+    "yarn": ">=4.5.3"
+  },
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
@@ -95,5 +98,5 @@
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
   },
-  "packageManager": "yarn@4.5.0"
+  "packageManager": "yarn@4.5.3"
 }
