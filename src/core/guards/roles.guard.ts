@@ -1,6 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import { Reflector } from '@nestjs/core';
+import { Observable } from 'rxjs';
+
 import { Role, ROLES_GUARD_KEY } from '../../constants';
 import { UsersService } from '../../modules/users/users.service';
 
@@ -14,11 +15,6 @@ export class RolesGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    // const roles = this.reflector.get<string[]>(
-    //   ROLES_GUARD_KEY,
-    //   context.getHandler(),
-    // );
-
     const requiredRoles = this.reflector.getAllAndOverride<Role[]>(
       ROLES_GUARD_KEY,
       [context.getHandler(), context.getClass()],
@@ -29,14 +25,15 @@ export class RolesGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest();
-    const user_id = request.get('user_id');
+    const { username } = request['token'];
 
-    return this.validateRequest(user_id, requiredRoles);
+    return this.validateRequest(username, requiredRoles);
   }
 
-  async validateRequest(user_id, roles) {
-    const userFromDb = await this.userService.findOne(user_id);
-    console.log('userFromDb', userFromDb);
-    return roles.some((role) => userFromDb.roles.includes(role));
+  async validateRequest(token, roles) {
+    const result = await this.userService.findOne('username', token);
+    const user = result['dataValues'];
+
+    return roles.some((role) => user.roles?.includes(role));
   }
 }
