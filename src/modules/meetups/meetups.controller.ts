@@ -5,21 +5,20 @@ import {
   Body,
   Param,
   Delete,
-  // UseGuards,
   Put,
   UsePipes,
+  UseGuards,
 } from '@nestjs/common';
 import { MeetupsService } from './meetups.service';
 import { CreateMeetupDto } from './dto/create-meetup.dto';
 import { UpdateMeetupDto } from './dto/update-meetup.dto';
-// import { RolesGuard } from '../../core/guards/roles.guard';
 import { JoiMeetupValidationPipe } from '../../core/validation/meetup-validation.pipe';
 import { meetupSchema, SearchMeetParams } from './dto/meetup.dto';
-// import { Roles } from '../../core/decorators/roles.decorator';
-// import { Role } from '../../constants';
+import { AuthGuard } from '../../core/guards/auth.guard';
 
 @Controller('meetups')
 // @UseGuards(RolesGuard)
+@UseGuards(AuthGuard)
 export class MeetupsController {
   constructor(private readonly meetupsService: MeetupsService) {}
 
@@ -29,7 +28,6 @@ export class MeetupsController {
   create(@Body() createMeetupDto: CreateMeetupDto) {
     return this.meetupsService.create(createMeetupDto);
   }
-
   @Get()
   findAll(@Body() searchMeetParams: SearchMeetParams) {
     return this.meetupsService.findAll(searchMeetParams);
